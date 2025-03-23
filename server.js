@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
@@ -8,6 +9,11 @@ const teacherRoutes = require("./routes/teacherRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 
 dotenv.config();
+
+app.use(cors({
+  origin: "http://localhost:3000",  // Change this to your frontend URL
+  credentials: true
+}));
 
 const app = express();
 
