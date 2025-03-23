@@ -25,7 +25,8 @@ router.post("/chat", async (req, res) => {
             contents: [{ role: "user", parts: [{ text: message }] }],
         });
 
-        const responseText = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+        const responseText = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "No Response From AI";
+        aiResponse = aiResponse.replace(/[\{\}\\]/g, "").trim();
 
         if (!responseText) {
             return res.status(500).json({ error: "AI bot error", details: "No response from AI model" });
