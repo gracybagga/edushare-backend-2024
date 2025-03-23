@@ -9,13 +9,14 @@ const teacherRoutes = require("./routes/teacherRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 
 dotenv.config();
+const app = express();
 
 app.use(cors({
   origin: "http://localhost:3000",  // Change this to your frontend URL
   credentials: true
 }));
 
-const app = express();
+
 
 // Middleware
 app.use(express.json());
