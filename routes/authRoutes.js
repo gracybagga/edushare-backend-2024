@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { registerStudent, registerTeacher, loginUser } = require("../controllers/authController");
 
 const router = express.Router();
