@@ -1,10 +1,19 @@
 const express = require("express");
-const { verifyToken } = require("../middlewares/authMiddleware"); // Ensure the user is logged in
-const { generateQuiz } = require("../controllers/quizController");
+const { generateAIQuiz } = require("../utils/geminiHelper");
 
-const router = express.Router();
+function quizRoutes(courseName) {
+  const router = express.Router();
 
-// Route to generate quiz based on AI
-router.post("/generate-quiz", verifyToken, generateQuiz);
+  router.get("/quiz", async (req, res) => {
+    try {
+      const quiz = await generateAIQuiz(courseName);
+      res.json({ course: courseName, quiz });
+    } catch (error) {
+      res.status(500).json({ message: "Error generating quiz", error });
+    }
+  });
 
-module.exports = router;
+  return router;
+}
+
+module.exports = quizRoutes;
