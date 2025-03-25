@@ -1,44 +1,49 @@
-const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const MODEL_NAME = "gemini-1.5-pro";
 
-// Function to generate AI-based quiz
 async function generateAIQuiz(courseName, lectureDescription) {
-  try {
-    const prompt = `Generate a quiz based on the following lecture: ${lectureDescription}. The quiz should have multiple-choice questions in the format:
-    {
-      "Quiz 1": [
-        {
-          "question": "What is the capital of France?",
-          "options": ["Madrid", "Paris", "Berlin", "Rome"],
-          "answer": "Paris"
+    try {
+        if (!lectureDescription) {
+            return { error: "Lecture description is missing!" };
         }
-      ]
-    }`;
 
-    const response = await axios.post(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
-      {
-        contents: [{ parts: [{ text: prompt }] }],
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${GEMINI_API_KEY}`,
-        },
-      }
-    );
+        const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-    if (response.data && response.data.candidates) {
-      return JSON.parse(response.data.candidates[0].content.parts[0].text);
-    } else {
-      throw new Error("Invalid AI response");
+        const prompt = `Generate a multiple-choice quiz with 5 questions based on the lecture below for the course "${courseName}":
+        Lecture: ${lectureDescription}
+        Each question should have 4 options and one correct answer. Return the quiz in a clean JSON format without any markdown formatting.
+        Example output:
+        {
+            "quiz": [
+                {
+                    "question": "What is ...?",
+                    "options": ["A", "B", "C", "D"],
+                    "answer": "A"
+                }
+            ]
+        }`;
+
+        const response = await model.generateContent({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+        });
+
+        let quizText = response?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+
+        // Remove unnecessary formatting like triple backticks (` ```json `)
+        quizText = quizText.replace(/```json|```/g, "").trim(); 
+
+        // Try to parse the response into JSON format
+        const quizJSON = JSON.parse(quizText);
+
+        return quizJSON.quiz ? quizJSON : { error: "Invalid quiz format received from AI" };
+
+    } catch (error) {
+        console.error("Quiz generation error:", error);
+        return { error: "AI Quiz generation failed", details: error.message };
     }
-  } catch (error) {
-    console.error("Error generating AI quiz:", error);
-    return { error: "Failed to generate quiz" };
-  }
 }
 
 module.exports = { generateAIQuiz };
