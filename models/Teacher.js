@@ -34,6 +34,7 @@ const TeacherSchema = new mongoose.Schema({
     type: String,
     required:true
   },
+  coursesAssigned: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
 });
 
 module.exports = mongoose.model("Teacher", TeacherSchema);
