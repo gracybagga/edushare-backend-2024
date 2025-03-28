@@ -15,6 +15,7 @@ const quizSchema = new mongoose.Schema({
     },
     description: { 
         type: String,
+        required: [true, 'Quiz description is required.'],
         match: [/^.{10,500}$/, 'Quiz description should be of 10-500 chars.'], // 10-500 characters
     },
   }, { timestamps: true }

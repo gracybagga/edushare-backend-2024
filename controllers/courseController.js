@@ -36,8 +36,6 @@ const createNewCourse = async (req, res, next) => {
       });
     }
 
-    let welcomeActivity = 'Welcome to the ' + name + '. We are glad to have you with us 😁. '
-
     // Create a new course
     const course = new Course({
       name,
@@ -47,7 +45,7 @@ const createNewCourse = async (req, res, next) => {
       lectures: lectures || [],
       assignments: assignments || [],
       quizzes: quizzes || [],
-      upcomingActivities: [welcomeActivity]
+      upcomingActivities: []
     });
 
     // Save the course within the session
