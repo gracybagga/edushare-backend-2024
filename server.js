@@ -15,6 +15,7 @@ const assignmentRoutes = require("./routes/assignmentRoutes");// GB 032625
 const quizRoutes = require("./routes/quizRoutes");// GB 032625
 const courseRoutes = require("./routes/courseRoutes");// GB 032725
 const videoRoutes = require("./routes/videoRoutes");// GB 032725
+const generateContentRoutes = require("./routes/generateContentRoutes");// GB 032725
 
 dotenv.config();
 const app = express();
@@ -55,6 +56,7 @@ app.use("/api/assignments", assignmentRoutes);// GB 032625
 app.use("/api/quizzes", quizRoutes);// GB 032625
 app.use("/api/courses", courseRoutes);// GB 032725
 app.use("/api/videos", videoRoutes);// GB 032725
+app.use("/api/content", generateContentRoutes);// GB 032725
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
