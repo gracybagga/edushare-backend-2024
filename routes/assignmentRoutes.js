@@ -1,10 +1,18 @@
 // quizRoutes.js
 const express = require("express");
-const { verifyToken, verifyRole } = require("../middlewares/authMiddleware");
-const { getAllAssignments } = require("../controllers/assignmentController");
-
 const router = express.Router();
-
-router.get("/:courseId", verifyToken, getAllAssignments);
+const { verifyToken, verifyRole } = require("../middlewares/authMiddleware");
+const { 
+    createNewAssignment, 
+    getAssignmentById 
+} = require('../controllers/assignmentController'); // GB 032725
+  
+// Add an assignment with file upload
+router.post("/", verifyToken , createNewAssignment); // GB 032725
+  
+// Serve assignment
+router.get("/:id", verifyToken , getAssignmentById); // GB 032725
 
 module.exports = router;
+
+//router.get("/:courseId", verifyToken, getAllAssignments);

@@ -19,6 +19,11 @@ const assignmentSchema = new mongoose.Schema({
     minlength: [5, 'Assignment Title must be at least 5 characters long'],
     maxlength: [100, 'Assignment Title cannot exceed 100 characters'],
   },
+  description: {
+    type: String,
+    required: [true, 'Assignment description is required'],
+    minlength: [5, 'Assignment description must be at least 5 characters long'],
+  },
   content: {
     type: String,
     required: [true, 'Assignment content is required'],
