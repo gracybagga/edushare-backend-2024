@@ -50,15 +50,6 @@ exports.getStudentDashboard = async (req, res) => {
   }
 
   };
-    
-  // Example of accessing a course
-  exports.accessCourse = (req, res) => {
-    // Simulating course access
-    const courseName = req.params.courseName;
-    res.status(200).json({
-      message: `Accessing course: ${courseName}`,
-    });
-  };
   
   // GB 032925
   exports.getStudentProfile = async (req, res) => {

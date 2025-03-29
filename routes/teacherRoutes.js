@@ -6,9 +6,9 @@ const { getTeacherDashboard, getTeacherProfile } = require("../controllers/teach
 const router = express.Router();
 
 // Ensure that only teachers can access the teacher dashboard
-router.get("/dashboard", verifyToken, verifyRole("teacher"), getTeacherDashboard);
+router.get("/dashboard/teacher/:userId", verifyToken, verifyRole("TEACHER"), getTeacherDashboard);// GB 032925
 
 // Get teacher profile
-router.get("/dashboard/profile", verifyToken, verifyRole("teacher"), getTeacherProfile);
+router.get("/profile/:userId", verifyToken, verifyRole("TEACHER"), getTeacherProfile);// GB 032925
 
 module.exports = router;
