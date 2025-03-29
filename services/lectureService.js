@@ -93,4 +93,4 @@ async function generateAILecture( topic) {
     }
 }
 
-module.exports = { generateAIAssignment };
+module.exports = { generateAILecture };

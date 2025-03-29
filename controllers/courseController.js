@@ -1,7 +1,6 @@
 // GB 032725
 const mongoose = require('mongoose'); // Import mongoose
 const Course = require('../models/Course');
-const EnrollmentCourse = require('../models/EnrollmentCourse');
 
 // Create a new course
 const createNewCourse = async (req, res, next) => {
