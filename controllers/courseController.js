@@ -5,7 +5,7 @@ const Course = require('../models/Course');
 // Create a new course
 const createNewCourse = async (req, res, next) => {
   try {
-    const { name, description, image, videos, lectures, assignments, quizzes } = req.body;
+    const { name, description, image } = req.body;
 
     // Validate required fields
     if (!name || !description || !image ) {
@@ -40,10 +40,10 @@ const createNewCourse = async (req, res, next) => {
       name,
       description,
       image,
-      videos: videos || [],
-      lectures: lectures || [],
-      assignments: assignments || [],
-      quizzes: quizzes || [],
+      videos: [],
+      lectures: [],
+      assignments: [],
+      quizzes: [],
       upcomingActivities: []
     });
 

@@ -73,12 +73,17 @@ app.use((err, req, res, next) => {
 });// GB 032625
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-    .then(() => console.log("Database connected successfully"))
-    .catch((err) => console.error("Database connection error:", err));
+// mongoose.connect(process.env.MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+//     .then(() => console.log("Database connected successfully"))
+//     .catch((err) => console.error("Database connection error:", err));
+
+// GB 032825
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("Database connected successfully"))
+  .catch((err) => console.error("Database connection error:", err));
 
 // Start Server
 const PORT = process.env.PORT || 4000;

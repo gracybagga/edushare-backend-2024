@@ -4,14 +4,15 @@ const {
   createNewCourse, 
   getAllCourses, 
   getOneCourse} = require('../controllers/courseController');
+  const { verifyToken, verifyRole } = require("../middlewares/authMiddleware");
 
 // Create a new course
 router.post('/', createNewCourse);
 
 // Get all courses
-router.get('/', getAllCourses);
+router.get('/', verifyToken, getAllCourses);
 
 // Get a course by ID
-router.get('/:id', getOneCourse);
+router.get('/:id', verifyToken, getOneCourse);
 
 module.exports = router;

@@ -19,7 +19,8 @@ exports.registerStudent = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
     const phoneRegex = /^\d{10}$/; // 10-digit phone number
     const zipRegex = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/; // Alphanumeric, 3-10 characters
-    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.[!@#$&])(?=.\d)[A-Za-z\d!@#$&]{6,14}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&])(?=.*\d)[A-Za-z\d!@#$&]{6,14}$/;
+
     // Password: 6-14 chars, at least one lowercase, one uppercase, one special char, and one number
 
     // Validate input
@@ -108,7 +109,7 @@ exports.registerTeacher = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
     const phoneRegex = /^\d{10}$/; // 10-digit phone number
     const zipRegex = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/; // Alphanumeric, 3-10 characters
-    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.[!@#$&])(?=.\d)[A-Za-z\d!@#$&]{6,14}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&])(?=.*\d)[A-Za-z\d!@#$&]{6,14}$/;
     // Password: 6-14 chars, at least one lowercase, one uppercase, one special char, and one number
 
     // Validate input
@@ -188,7 +189,7 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.[!@#$&])(?=.\d)[A-Za-z\d!@#$&]{6,14}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&])(?=.*\d)[A-Za-z\d!@#$&]{6,14}$/;
   // Password: 6-14 chars, at least one lowercase, one uppercase, one special char, and one number
 
   // Validate input
@@ -223,15 +224,38 @@ exports.loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
+    let fullName='';
+    let userFirstName = '';
+    let userLastName = '';
+
+    if (user.role==='STUDENT') {
+      const student = await Student.findOne({ email });
+      if (!student) {
+        return res.status(400).json({ message: "Student'fullname not found." });
+      }
+      userFirstName = student.firstName;
+      userLastName = student.lastName;
+      fullName = student.firstName + ' ' + student.lastName;
+    }
+
+    if (user.role==='TEACHER') {
+      const teacher = await Teacher.findOne({ email });
+      if (!teacher) {
+        return res.status(400).json({ message: "Teacher'fullname not found." });
+      }
+      userFirstName = teacher.firstName;
+      userLastName = teacher.lastName;
+      fullName = teacher.firstName + ' ' + teacher.lastName;
+    }
 
     // Create a payload with additional information (like firstName, lastName, etc.)
     const payload = {
       userId: user._id,
       role: user.role,
-      firstName: user.firstName,  // Include additional fields in token
-      lastName: user.lastName,
+      firstName: userFirstName,  // Include additional fields in token
+      lastName: userLastName,
       email: user.email,
-      fullName: user.firstName + ' ' + user.lastName,
+      fullName: fullName,
     };
 
     // Generate a JWT token

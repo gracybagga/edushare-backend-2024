@@ -17,8 +17,8 @@ const addNewQuiz = async (req, res, next) => {
       if (!/^.{3,100}$/.test(title)) {
         return res.status(400).json({ message: "Title must be 3-100 characters long." });
       }
-      if (!/^.{10,500}$/.test(description)) {
-        return res.status(400).json({ message: "Description must be 10-500 characters long." });
+      if (!/^.{10,1000}$/.test(description)) {
+        return res.status(400).json({ message: "Description must be 10-1000 characters long." });
       }
 
       const quiz = new Quiz(req.body);
