@@ -16,7 +16,7 @@ async function generateAIAssignment( description) {
         The response should be structured in HTML format so it can be directly injected into a webpage.
         Ensure there is a logical flow and proper structure to ensure clarity.
         In the output, ensure proper escaping of double quotes, avoid adding unneccasry '\n' after each element to indicate a new line, html will take care of it and  avoid any invalid JSON structures.
-        Example output of html content with bootstrap styling:
+        Example output of html content:
         {
             "assignment": "<h3>Introduction to HTML</h3><p>In this assignment, you will create a simple webpage using HTML.</p><ul><li>Create a basic structure using <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code> tags.</li><li>Add a heading and a paragraph with some text.</li><li>Include an image using the <code>&lt;img&gt;</code> tag.</li></ul><p><strong>Example:</strong></p><pre>&lt;h1&gt;Welcome to HTML&lt;/h1&gt;</pre>"
         }`;
