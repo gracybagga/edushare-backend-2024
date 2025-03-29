@@ -9,8 +9,7 @@ const videoSchema = new mongoose.Schema({
     title: { 
         type: String, 
         required: [true, "Title is required"],
-        maxlength: [100, "Title cannot exceed 100 characters"],
-        match: [/^[a-zA-Z0-9\s.,!?-]{3,100}$/, "Title must be 3-100 characters long and can include punctuation"],
+        maxlength: [200, "Title cannot exceed 100 characters"]
     },
     videoUrl: { 
         type: String,

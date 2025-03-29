@@ -32,17 +32,13 @@ const createNewAssignment = async (req, res, next) => {
 
     const content = await generateAIAssignment(description);
 
-    console.log('Assignment content: \n'+content);
-
     // Create a new assignment
     const assignment = new Assignment({
       courseId,
       title,
       description,
-      content
+      content: content.assignment
     });
-
-    console.log('Assignment: \n'+assignment);
 
     // Save the assignment within the session
     const savedAssignment = await assignment.save();
@@ -54,6 +50,7 @@ const createNewAssignment = async (req, res, next) => {
     );
 
     res.status(201).json({ data: savedAssignment });
+    
   } catch (err) {
     if (err.name === 'ValidationError') {
       // Handle Mongoose validation errors

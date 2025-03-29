@@ -8,7 +8,7 @@ const {
 } = require('../controllers/assignmentController'); // GB 032725
   
 // Add an assignment with file upload
-router.post("/", verifyToken , createNewAssignment); // GB 032725
+router.post("/" , createNewAssignment); // GB 032725
   
 // Serve assignment
 router.get("/:id", verifyToken , getAssignmentById); // GB 032725

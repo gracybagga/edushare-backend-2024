@@ -9,7 +9,7 @@ const {
 } = require('../controllers/videoController');
 
 // Add a video to a course
-router.post("/", verifyToken , addVideoToCourse); 
+router.post("/" , addVideoToCourse); 
 
 // Get a single video by ID
 router.get("/:videoId", verifyToken , getVideo);

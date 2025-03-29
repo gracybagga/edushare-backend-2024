@@ -12,7 +12,7 @@ async function generateAIQuiz(topic) {
 
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-        const prompt = `You are a quiz generator for an e-learning platform. Generate a multiple-choice quiz with 10 questions based on the topic provided by the user.
+        const prompt = `You are a quiz generator for an e-learning platform. Generate a multiple-choice quiz - an array of 10 questions based on the topic provided by the user.
         Each question should follow this JSON format:
         Example output:
         {
@@ -42,7 +42,14 @@ async function generateAIQuiz(topic) {
         let quizText = response?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
 
         // Remove unnecessary formatting like triple backticks (` ```json `)
-        quizText = quizText.replace(/^json\n/, '').replace(/\n$/, '').replace("```", "").trim(); 
+        // quizText = quizText.replace(/^json\n/, '').replace(/\n$/, '').replace("```", "").trim(); 
+
+        quizText = quizText.replace(/```json/, '')  // Remove AI markdown block start 
+                            .replace(/```/, '')       // Remove AI markdown block end
+                            .replace(/\n/g, '')        // Remove all newline characters globally
+                            .trim();
+
+        quizText = quizText.split('\n').join('');
 
         // Try to parse the response into JSON format
         const quizJSON = JSON.parse(quizText);
