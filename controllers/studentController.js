@@ -4,7 +4,7 @@ const Student = require("../models/Student");  // Import Student model // GB 032
 const Course = require("../models/Course");  // Import Course model // GB 032925
 
 // studentController.js
-exports.getStudentDashboard = async (req, res) => {
+exports.getStudentDashboard = async (req, res, next) => {
   const userId = req.params.userId;
   if(!userId) {
     return res.status(400).json({message:"Student's userId is required "})
@@ -52,7 +52,7 @@ exports.getStudentDashboard = async (req, res) => {
   };
   
   // GB 032925
-  exports.getStudentProfile = async (req, res) => {
+  exports.getStudentProfile = async (req, res, next) => {
     const userId = req.params.userId;
     if(!userId) {
       return res.status(400).json({message:"Student's userId is required "})

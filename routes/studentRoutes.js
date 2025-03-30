@@ -7,7 +7,7 @@ const { getStudentDashboard, getStudentProfile } = require("../controllers/stude
 const router = express.Router();
 
 // Ensure that only students can access the student dashboard
-router.get("/dashboard/student/:userId", verifyToken, verifyRole("STUDENT"), getStudentDashboard);// GB 032925
+router.get("/dashboard/:userId", verifyToken, verifyRole("STUDENT"), getStudentDashboard);// GB 032925
 
 // Get student profile
 router.get("/profile/:userId", verifyToken, verifyRole("STUDENT"), getStudentProfile);// GB 032925

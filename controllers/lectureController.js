@@ -75,8 +75,20 @@ const getLecture = async (req, res, next) => {
 
 // Get all lectures
 const getAllLectures = async (req, res, next) => {
+  const { courseId } = req.params;
+
+  // Validate if ID is provided
+  if (!courseId) {
+    return res.status(400).json({ message: 'ID is required to fetch a lecture.' });
+  }
+
+  // Validate ID format
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    return res.status(400).json({ message: "Invalid lecture ID" });
+  }
+
   try {
-    const lectures = await Lecture.find();
+    const lectures = await Lecture.find({courseId:courseId});
 
     if (lectures.length === 0) {
       // Handle the case where no lecture are found
@@ -95,6 +107,7 @@ const getAllLectures = async (req, res, next) => {
 
 
 module.exports = {addLecture,getLecture,getAllLectures};
+
 
 // const mongoose = require('mongoose');
 // const Course = require("../models/Course");  // Import User model

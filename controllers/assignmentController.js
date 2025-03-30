@@ -91,7 +91,35 @@ const getAssignmentById = async (req, res, next) => {
   }
 };
 
-module.exports = { createNewAssignment, getAssignmentById };
+const getAssignmentByCourseId = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+
+    if(!courseId) {
+      return res.status(400).json({ message: 'Assignment courseId is required.' });
+    }
+
+    // Validate ID
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ message: 'Invalid assignment courseId.' });
+    }
+
+    // Find the assignment
+    const assignments = await Assignment.find({ courseId: courseId });
+
+    if (!assignments) {
+      return res.status(404).json({ message: 'Assignments not found.' });
+    }
+
+    // Respond with assignment details and files
+    res.status(200).json({ data: assignments });
+  } catch (err) {
+    console.error('Error fetching assignment by ID:', err);
+    res.status(500).json({ message: 'Internal server error.', error: err.message });
+  }
+};
+
+module.exports = { createNewAssignment, getAssignmentById, getAssignmentByCourseId };
 
 // const Course = require("../models/Course"); 
 

@@ -81,7 +81,7 @@ exports.registerStudent = async (req, res) => {
       userId: newUser._id,
       firstName,
       lastName,
-      email,
+      email : email.toLowerCase(),
       phone,
       gender, 
       dateOfBirth,
@@ -93,7 +93,7 @@ exports.registerStudent = async (req, res) => {
     });
     await newStudent.save();
 
-    res.status(201).json({ message: "Student registered successfully" });
+    res.status(201).json({ message: "Student registered successfully", userId : newUser._id  });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -165,7 +165,7 @@ exports.registerTeacher = async (req, res) => {
       userId: newUser._id,
       firstName,
       lastName,
-      email,
+      email: email.toLowerCase(),
       phone,
       street,
       province,
@@ -229,7 +229,7 @@ exports.loginUser = async (req, res) => {
     let userLastName = '';
 
     if (user.role==='STUDENT') {
-      const student = await Student.findOne({ email });
+      const student = await Student.findOne({ email : email.toLowerCase() });
       if (!student) {
         return res.status(400).json({ message: "Student'fullname not found." });
       }
@@ -239,7 +239,7 @@ exports.loginUser = async (req, res) => {
     }
 
     if (user.role==='TEACHER') {
-      const teacher = await Teacher.findOne({ email });
+      const teacher = await Teacher.findOne({ email : email.toLowerCase() });
       if (!teacher) {
         return res.status(400).json({ message: "Teacher'fullname not found." });
       }

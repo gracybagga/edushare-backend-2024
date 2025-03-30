@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { generateAIQuiz } = require("../services/quizService"); 
 const { generateAILecture } = require("../services/lectureService");
+const { verifyToken, verifyRole } = require("../middlewares/authMiddleware");
 
-router.post('/quiz', async (req, res) => {
+router.post('/quiz', verifyToken, async (req, res) => {
   try {
     const { topic } = req.body;
 
@@ -23,7 +24,7 @@ router.post('/quiz', async (req, res) => {
 });
 
 
-router.post('/lectures', async (req, res) => {
+router.post('/lectures', verifyToken, async (req, res) => {
   try {
     const { topic } = req.body;
 
@@ -36,7 +37,7 @@ router.post('/lectures', async (req, res) => {
    // Send the request to GeminiAI
    const content = await generateAILecture(topic);
     // console.log(aiResponse);
-    return res.status(200).json({success:true, lecture: content.lecture });
+    return res.status(200).json({ content: content.lecture });
     
 
   } catch (error) {
