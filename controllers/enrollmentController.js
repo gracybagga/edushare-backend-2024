@@ -85,16 +85,22 @@ const assignTeacher = async (req, res) => {
 const getAllCoursesForEnrollment = async (req, res) => {
 
   try {
-    const allcourses = await Course.find();  
+    const allCourses = await Course.find();  
 
-    if (!allcourses) {
-      return res.status(404).json({ message: 'Courses not found', data: [] });
+    if (!allCourses || allCourses.length === 0) {
+      return res.status(404).json({ message: 'Courses for Enrollment not found', data: [] });
     }
 
-    res.status(200).json({ message: 'Courses successfully fetched', data: allcourses });
+    const filteredCourses = allCourses.map(course => ({
+      _id: course._id,
+      image: course.image,
+      title: course.title
+    }));
+
+    res.status(200).json({ message: 'Courses for Enrollment successfully fetched', data: filteredCourses });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Courses could not be fetched', error: err.message });
+    res.status(500).json({ message: 'Courses for Enrollment could not be fetched', error: err.message });
   }
 };
 
