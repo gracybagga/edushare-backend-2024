@@ -83,7 +83,7 @@ const getAllVideos = async (req, res, next) => {
       return res.status(404).json({ message: "No videos found for this course" });
     }
 
-    res.status(200).json({ data: videos, });
+    res.status(200).json({ data: videos });
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving videos: ', error: error.message });
   }

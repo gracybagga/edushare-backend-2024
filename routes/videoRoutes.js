@@ -15,7 +15,7 @@ router.post("/" , verifyToken, verifyRole('TEACHER'), addVideoToCourse);
 router.get("/:videoId", verifyToken , getVideo);
 
 // Get all videos for a course
-router.get("/:courseId", verifyToken , getAllVideos);
+router.get("/allpercourse/:courseId", verifyToken , getAllVideos);
 
 
 module.exports = router;

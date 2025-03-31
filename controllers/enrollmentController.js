@@ -8,8 +8,12 @@ const enrollStudent = async (req, res) => {
   const { studentId, courseId } = req.body;
 
   // Validate input
-  if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
-    return res.status(400).json({ message: 'Invalid student or course ID' });
+  if (!mongoose.Types.ObjectId.isValid(studentId)) {
+    return res.status(400).json({ message: 'Invalid student ID' });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    return res.status(400).json({ message: 'Invalid course ID' });
   }
 
   try {
@@ -47,9 +51,14 @@ const assignTeacher = async (req, res) => {
     const { teacherId, courseId } = req.body;
   
     // Validate input
-    if (!mongoose.Types.ObjectId.isValid(teacherId) || !mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).json({ message: 'Invalid teacher or course ID' });
+    if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+      return res.status(400).json({ message: 'Invalid teacher ID' });
     }
+
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ message: 'Invalid course ID' });
+    }
+  
   
     try {
       // Check if the student exists
@@ -94,7 +103,7 @@ const getAllCoursesForEnrollment = async (req, res) => {
     const filteredCourses = allCourses.map(course => ({
       _id: course._id,
       image: course.image,
-      title: course.title
+      name: course.name
     }));
 
     res.status(200).json({ message: 'Courses for Enrollment successfully fetched', data: filteredCourses });

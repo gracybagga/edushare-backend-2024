@@ -13,7 +13,7 @@ router.post("/", verifyToken, verifyRole('TEACHER'), addLecture); // GB 032725
 router.get("/:id", verifyToken , getLecture); // GB 032725 
 
 // Get all lectures
-router.get("/:courseId", verifyToken , getAllLectures); // GB 032725 
+router.get("/alllecturespercourse/:courseId", verifyToken , getAllLectures); // GB 032725 
 
 module.exports = router;
 
