@@ -15,7 +15,7 @@ router.post('/quiz', verifyToken, async (req, res) => {
     // Send the request to GeminiAI
     const content = await generateAIQuiz(topic);
 
-    return res.status(200).json({success:true, quiz: content.quiz });
+    return res.status(200).json({quiz: content.quiz });
     
   } catch (error) {
     console.error("Error communicating with GeminiAI:", error);

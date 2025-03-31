@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // Add a lecture
-router.post("/", addLecture); // GB 032725 
+router.post("/", verifyToken, verifyRole('TEACHER'), addLecture); // GB 032725 
 
 // Get a specific lecture
 router.get("/:id", verifyToken , getLecture); // GB 032725 

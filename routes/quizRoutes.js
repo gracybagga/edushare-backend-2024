@@ -5,7 +5,7 @@ const { addNewQuiz, getAllQuizzesForCourse, getQuizById } = require('../controll
 
 const router = express.Router();
 // Create a new quiz
-router.post('/', addNewQuiz);
+router.post('/',verifyToken, verifyRole('TEACHER'), addNewQuiz);
 
 // Get quizzes for a course
 router.get('/quizbycourseid/:courseId', verifyToken, getAllQuizzesForCourse);
