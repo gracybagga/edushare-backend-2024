@@ -272,8 +272,74 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+//ResetPassword
+exports.resetPassword = async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
 
+  // console.log('New Password: '+newPassword);
+  // console.log('NeConfirmw Password: '+confirmPassword);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&])(?=.*\d)[A-Za-z\d!@#$&]{6,14}$/;
+  // Password: 6-14 chars, at least one lowercase, one uppercase, one special char, and one number
+
+  // Validate input
+  if (!email) {
+    return res.status(400).json({message: 'Username or email is required' });
+  }
+  if (!newPassword) {
+    return res.status(400).json({message: 'New Password is required' });
+  }
+  if (!confirmPassword) {
+    return res.status(400).json({message: 'New Confirm Password is required' });
+  }
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({message: 'Password and Confirm Password must match.' });
+  }
+
+  // Validate username
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: 'Email must be entered in a proper format.'
+    });
+  }
+  // Validate password
+  if (!passwordRegex.test(newPassword)) {
+   return res.status(400).json({
+      message: 'New Password must be 6-14 characters long, include at least one lowercase, one uppercase, one special character [!@#$&], and one number'
+    });
+  }
+  if (!passwordRegex.test(confirmPassword)) {
+    return res.status(400).json({
+       message: 'Confirm Password must be 6-14 characters long, include at least one lowercase, one uppercase, one special character [!@#$&], and one number'
+     });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password has been reset successfully' });
+
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const resetPassword = async (req, res) => {
+
+  
+};
 
 // Not good anymore 032625 GB
 /*

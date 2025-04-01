@@ -14,7 +14,7 @@ router.post("/" , createNewAssignment); // GB 032725
 // Serve assignment
 router.get("/:id", verifyToken , getAssignmentById); // GB 032725
 
-router.get("/:courseId", verifyToken , getAssignmentByCourseId); // GB 032725
+router.get("/percourse/:courseId", verifyToken , getAssignmentByCourseId); // GB 032725
 
 module.exports = router;
 
