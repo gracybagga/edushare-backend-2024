@@ -22,7 +22,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",  // Change this to your frontend URL // GB 032625
+  origin: process.env.EDUSHARE_FRONTEND_URL,  // Change this to your frontend URL // GB 032625
   allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',// GB 032625
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
